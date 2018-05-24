@@ -1,11 +1,12 @@
-package com.riversoft.weixin.pay.payment.wrapper;
+package com.riversoft.weixin.pay.payment.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.pay.base.BaseRequest;
 
 /**
  * @borball on 1/13/2017.
  */
-public class BillRequestWrapper extends BaseSettings {
+public class BillRequest extends BaseRequest {
 
     @JsonProperty("bill_date")
     private String date;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @borball on 5/15/2016.
  */
-public class BaseResponse {
+public class BaseResponse extends BaseRequest {
 
     @JsonProperty("return_code")
     private String returnCode;

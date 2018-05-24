@@ -1,11 +1,13 @@
 package com.riversoft.weixin.pay.payment.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.riversoft.weixin.pay.base.BaseResponse;
 
 /**
  * @borball on 5/17/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RefundResponse extends BaseResponse {
 
     @JsonProperty("transaction_id")

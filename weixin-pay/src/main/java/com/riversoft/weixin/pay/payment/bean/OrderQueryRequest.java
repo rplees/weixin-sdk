@@ -1,11 +1,14 @@
 package com.riversoft.weixin.pay.payment.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.riversoft.weixin.pay.base.BaseRequest;
 
 /**
  * @borball on 5/15/2016.
  */
-public class OrderQueryRequest {
+@JacksonXmlRootElement(localName = "xml")
+public class OrderQueryRequest extends BaseRequest {
 
     @JsonProperty("transaction_id")
     private String transactionId;

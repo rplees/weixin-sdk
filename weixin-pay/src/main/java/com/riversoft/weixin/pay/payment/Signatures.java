@@ -1,11 +1,13 @@
 package com.riversoft.weixin.pay.payment;
 
-import com.riversoft.weixin.common.util.MD5;
-import com.riversoft.weixin.common.util.RandomStringGenerator;
-import com.riversoft.weixin.pay.base.PaySetting;
-import com.riversoft.weixin.pay.payment.bean.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.riversoft.weixin.common.util.MD5;
+import com.riversoft.weixin.common.util.RandomStringGenerator;
+import com.riversoft.weixin.pay.base.IPaySetting;
+import com.riversoft.weixin.pay.base.XMLPaySetting;
+import com.riversoft.weixin.pay.payment.bean.Signature;
 
 /**
  * @borball on 12/29/2016.
@@ -14,17 +16,17 @@ public class Signatures {
 
     private static Logger logger = LoggerFactory.getLogger(Signatures.class);
 
-    private PaySetting paySetting;
+    private IPaySetting paySetting;
 
-    public void setPaySetting(PaySetting paySetting) {
+    public void setPaySetting(IPaySetting paySetting) {
         this.paySetting = paySetting;
     }
 
     public static Signatures defaultSignatures() {
-        return with(PaySetting.defaultSetting());
+        return with(XMLPaySetting.defaultSetting());
     }
 
-    public static Signatures with(PaySetting paySetting) {
+    public static Signatures with(IPaySetting paySetting) {
         Signatures signatures = new Signatures();
         signatures.setPaySetting(paySetting);
         return signatures;

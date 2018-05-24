@@ -17,20 +17,6 @@ import java.util.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentNotification extends BaseResponse {
 
-    @JsonProperty("appid")
-    private String appId;
-
-    @JsonProperty("mch_id")
-    private String mchId;
-
-    @JsonProperty("nonce_str")
-    private String nonce;
-
-    private String sign;
-
-    @JsonProperty("sign_type")
-    private String signType;
-
     @JsonProperty("device_info")
     private String deviceInfo;
 
@@ -83,46 +69,6 @@ public class PaymentNotification extends BaseResponse {
 
     @JsonProperty("time_end")
     private String timeEndString;
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getMchId() {
-        return mchId;
-    }
-
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
-    }
-
-    public String getNonce() {
-        return nonce;
-    }
-
-    public void setNonce(String nonce) {
-        this.nonce = nonce;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getSignType() {
-        return signType;
-    }
-
-    public void setSignType(String signType) {
-        this.signType = signType;
-    }
 
     public String getDeviceInfo() {
         return deviceInfo;

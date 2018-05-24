@@ -1,24 +1,27 @@
 package com.riversoft.weixin.pay.redpack;
 
+import java.util.SortedMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
+import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
 import com.riversoft.weixin.pay.PayWxClientFactory;
-import com.riversoft.weixin.pay.base.PaySetting;
+import com.riversoft.weixin.pay.base.IPaySetting;
+import com.riversoft.weixin.pay.base.IPayWxClient;
 import com.riversoft.weixin.pay.base.WxEndpoint;
+import com.riversoft.weixin.pay.base.XMLPaySetting;
 import com.riversoft.weixin.pay.redpack.bean.RedPackRequest;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResponse;
 import com.riversoft.weixin.pay.redpack.bean.RedPackResult;
-import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.pay.util.SignatureUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.SortedMap;
 
 /**
  * Created by exizhai on 11/22/2015.
@@ -27,22 +30,22 @@ public class RedPacks {
 
     private static Logger logger = LoggerFactory.getLogger(RedPacks.class);
 
-    private PaySetting paySetting;
+    private IPaySetting paySetting;
 
-    public void setPaySetting(PaySetting paySetting) {
+    public void setPaySetting(IPaySetting paySetting) {
         this.paySetting = paySetting;
     }
 
     private WxSslClient wxSslClient;
 
     public static RedPacks defaultRedPacks() {
-        return with(PaySetting.defaultSetting());
+        return with(XMLPaySetting.defaultSetting(), PayWxClientFactory.getInstance());
     }
 
-    public static RedPacks with(PaySetting paySetting) {
+    public static RedPacks with(IPaySetting paySetting, IPayWxClient payWxClient) {
         RedPacks redPacks = new RedPacks();
         redPacks.setPaySetting(paySetting);
-        redPacks.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting));
+        redPacks.setWxSslClient(payWxClient.load(paySetting));
         return redPacks;
     }
 

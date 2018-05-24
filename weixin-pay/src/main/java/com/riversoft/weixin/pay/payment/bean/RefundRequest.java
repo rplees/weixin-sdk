@@ -1,11 +1,12 @@
 package com.riversoft.weixin.pay.payment.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.pay.base.BaseRequest;
 
 /**
  * @borball on 5/17/2016.
  */
-public class RefundRequest {
+public class RefundRequest extends BaseRequest {
 
     @JsonProperty("transaction_id")
     private String transactionId;

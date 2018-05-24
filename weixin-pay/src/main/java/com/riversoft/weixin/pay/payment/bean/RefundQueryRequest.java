@@ -1,11 +1,12 @@
-package com.riversoft.weixin.pay.payment.wrapper;
+package com.riversoft.weixin.pay.payment.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.pay.base.BaseRequest;
 
 /**
  * @borball on 1/13/2017.
  */
-public class RefundQueryRequestWrapper extends BaseSettings {
+public class RefundQueryRequest extends BaseRequest {
 
     @JsonProperty("transaction_id")
     private String transactionId;

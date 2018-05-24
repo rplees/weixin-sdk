@@ -1,6 +1,7 @@
 package com.riversoft.weixin.pay.payment;
 
 import com.riversoft.weixin.pay.base.BaseResponse;
+import com.riversoft.weixin.pay.payment.bean.OrderCloseRequest;
 import com.riversoft.weixin.pay.payment.bean.OrderQueryRequest;
 import com.riversoft.weixin.pay.payment.bean.OrderQueryResponse;
 import com.riversoft.weixin.pay.payment.bean.UnifiedOrderRequest;
@@ -44,7 +45,9 @@ public class PaymentsTest {
 
     @Test
     public void testCloseOrder(){
-        BaseResponse response = Payments.defaultPayments().close("1292063901201605160012300015");
+    		OrderCloseRequest request = new OrderCloseRequest();
+    		request.setTradeNumber("1292063901201605160012300015");
+        BaseResponse response = Payments.defaultPayments().close(request);
         Assert.assertNotNull(response);
     }
 

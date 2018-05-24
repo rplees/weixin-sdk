@@ -1,5 +1,10 @@
 package com.riversoft.weixin.pay.transfer;
 
+import java.util.SortedMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -7,19 +12,17 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.JsonMapper;
+import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
 import com.riversoft.weixin.pay.PayWxClientFactory;
-import com.riversoft.weixin.pay.base.PaySetting;
+import com.riversoft.weixin.pay.base.IPaySetting;
+import com.riversoft.weixin.pay.base.IPayWxClient;
 import com.riversoft.weixin.pay.base.WxEndpoint;
+import com.riversoft.weixin.pay.base.XMLPaySetting;
 import com.riversoft.weixin.pay.transfer.bean.TransferRequest;
 import com.riversoft.weixin.pay.transfer.bean.TransferResponse;
 import com.riversoft.weixin.pay.transfer.bean.TransferResult;
-import com.riversoft.weixin.common.util.RandomStringGenerator;
 import com.riversoft.weixin.pay.util.SignatureUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.SortedMap;
 
 /**
  * Created by exizhai on 12/2/2015.
@@ -28,22 +31,21 @@ public class Transfers {
 
     private static Logger logger = LoggerFactory.getLogger(Transfers.class);
 
-    private PaySetting paySetting;
-
-    public void setPaySetting(PaySetting paySetting) {
+    private IPaySetting paySetting;
+    public void setPaySetting(IPaySetting paySetting) {
         this.paySetting = paySetting;
     }
 
     private WxSslClient wxSslClient;
 
     public static Transfers defaultTransfers() {
-        return with(PaySetting.defaultSetting());
+        return with(XMLPaySetting.defaultSetting(), PayWxClientFactory.getInstance());
     }
 
-    public static Transfers with(PaySetting paySetting) {
-        Transfers transfers = new Transfers();
+    public static Transfers with(IPaySetting paySetting, IPayWxClient payWxClient) {
+    		Transfers transfers = new Transfers();
         transfers.setPaySetting(paySetting);
-        transfers.setWxSslClient(PayWxClientFactory.getInstance().with(paySetting));
+        transfers.setWxSslClient(payWxClient.load(paySetting));
         return transfers;
     }
 

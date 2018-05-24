@@ -1,20 +1,21 @@
 package com.riversoft.weixin.pay.payment.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.riversoft.weixin.pay.base.BaseResponse;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.riversoft.weixin.pay.base.BaseResponse;
+
 /**
  * @borball on 5/17/2016.
  */
 @JsonIgnoreProperties
-public class RefundQuery extends BaseResponse {
+public class RefundQueryResponse extends BaseResponse {
 
     @JsonProperty("transaction_id")
     private String transactionId;
@@ -48,6 +49,11 @@ public class RefundQuery extends BaseResponse {
 
     public void setOthers(Map<String, Object> others) {
         this.others = others;
+    }
+    
+    @JsonAnySetter
+    public void set(String name, Object value) {
+        others.put(name, value);
     }
 
     public String getTransactionId() {

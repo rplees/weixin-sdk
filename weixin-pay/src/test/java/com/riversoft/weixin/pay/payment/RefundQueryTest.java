@@ -1,11 +1,12 @@
 package com.riversoft.weixin.pay.payment;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.riversoft.weixin.pay.payment.wrapper.RefundQueryWrapper;
+import java.io.IOException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.riversoft.weixin.pay.payment.bean.RefundQueryResponse;
 
 /**
  * @borball on 12/29/2016.
@@ -15,12 +16,11 @@ public class RefundQueryTest {
     @Test
     public void testXml2Bean() throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
-        RefundQueryWrapper refundQueryWrapper =  xmlMapper.readValue(getXml(), RefundQueryWrapper.class);
+        RefundQueryResponse refundQueryWrapper =  xmlMapper.readValue(getXml(), RefundQueryResponse.class);
         Assert.assertNotNull(refundQueryWrapper);
-        Assert.assertNotNull(refundQueryWrapper.getRefundQuery());
-        refundQueryWrapper.ready();
-        Assert.assertNotNull(refundQueryWrapper.getRefundQuery().getRefunds());
-        Assert.assertEquals(2, refundQueryWrapper.getRefundQuery().getRefunds().size());
+//        refundQueryWrapper.ready();
+        Assert.assertNotNull(refundQueryWrapper.getRefunds());
+        Assert.assertEquals(2, refundQueryWrapper.getRefunds().size());
     }
 
     private String getXml(){

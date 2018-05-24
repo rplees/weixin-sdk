@@ -1,11 +1,14 @@
 package com.riversoft.weixin.pay.payment.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.riversoft.weixin.pay.base.BaseRequest;
 
 /**
  * @borball on 5/15/2016.
  */
-public class UnifiedOrderRequest {
+@JacksonXmlRootElement(localName = "xml")
+public class UnifiedOrderRequest extends BaseRequest {
 
     /**
      * 终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB"
@@ -62,7 +65,29 @@ public class UnifiedOrderRequest {
     @JsonProperty("openid")
     private String openId;
 
-    public String getDeviceInfo() {
+    @JsonProperty("sub_openid")
+    private String subOpenId;
+    
+    @JsonProperty("scene_info")
+    private String sceneInfo;
+    
+    public String getSubOpenId() {
+		return subOpenId;
+	}
+
+	public void setSubOpenId(String subOpenId) {
+		this.subOpenId = subOpenId;
+	}
+
+	public String getSceneInfo() {
+		return sceneInfo;
+	}
+
+	public void setSceneInfo(String sceneInfo) {
+		this.sceneInfo = sceneInfo;
+	}
+
+	public String getDeviceInfo() {
         return deviceInfo;
     }
 
@@ -94,15 +119,15 @@ public class UnifiedOrderRequest {
         this.attach = attach;
     }
 
-    public String getTradeNumber() {
-        return tradeNumber;
-    }
+	public String getTradeNumber() {
+		return tradeNumber;
+	}
 
-    public void setTradeNumber(String tradeNumber) {
-        this.tradeNumber = tradeNumber;
-    }
+	public void setTradeNumber(String tradeNumber) {
+		this.tradeNumber = tradeNumber;
+	}
 
-    public String getFeeType() {
+	public String getFeeType() {
         return feeType;
     }
 

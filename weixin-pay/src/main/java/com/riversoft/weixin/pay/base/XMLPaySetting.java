@@ -1,5 +1,7 @@
 package com.riversoft.weixin.pay.base;
 
+import com.riversoft.weixin.common.cert.CertContent;
+import com.riversoft.weixin.common.cert.FilePathCertContent;
 import com.riversoft.weixin.common.exception.WxRuntimeException;
 import com.riversoft.weixin.common.util.XmlObjectMapper;
 import org.apache.commons.io.IOUtils;
@@ -14,17 +16,17 @@ import java.io.InputStream;
  *
  * Created by exizhai on 11/22/2015.
  */
-public class PaySetting {
+public class XMLPaySetting implements IPaySetting {
 
-    private static Logger logger = LoggerFactory.getLogger(PaySetting.class);
+    private static Logger logger = LoggerFactory.getLogger(XMLPaySetting.class);
 
-    private static PaySetting paySetting = null;
+    private static XMLPaySetting paySetting = null;
 
-    public static void setDefault(PaySetting paySetting) {
-        PaySetting.paySetting = paySetting;
+    public static void setDefault(XMLPaySetting paySetting) {
+        XMLPaySetting.paySetting = paySetting;
     }
 
-    public static PaySetting defaultSetting() {
+    public static XMLPaySetting defaultSetting() {
         if (paySetting == null) {
             loadFromSystemProperties();
         }
@@ -48,7 +50,7 @@ public class PaySetting {
                 return;
             } else {
                 try {
-                    PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
+                    XMLPaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, XMLPaySetting.class);
                     paySetting = setting;
                 } catch (IOException e) {
                 }
@@ -66,7 +68,7 @@ public class PaySetting {
 
             if (inputStream != null) {
                 String xml = IOUtils.toString(inputStream);
-                PaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, PaySetting.class);
+                XMLPaySetting setting = XmlObjectMapper.defaultMapper().fromXml(xml, XMLPaySetting.class);
                 paySetting = setting;
             }
         } catch (IOException e) {
@@ -145,7 +147,7 @@ public class PaySetting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PaySetting that = (PaySetting) o;
+        XMLPaySetting that = (XMLPaySetting) o;
 
         if (!mchId.equals(that.mchId)) return false;
         return !(appId != null ? !appId.equals(that.appId) : that.appId != null);
@@ -158,4 +160,9 @@ public class PaySetting {
         result = 31 * result + (appId != null ? appId.hashCode() : 0);
         return result;
     }
+
+	@Override
+	public CertContent getCertContent() {
+		return new FilePathCertContent(this.certPath);
+	}
 }
