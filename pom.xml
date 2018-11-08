@@ -17,6 +17,10 @@
         </license>
     </licenses>
 
+    <properties>
+        <nexus-url>nexus.gosoftapp.com:8081</nexus-url>
+    </properties>
+
     <developers>
         <developer>
             <id>woden</id>
@@ -41,6 +45,19 @@
     </modules>
 
     <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://${nexus-url}/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://${nexus-url}/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+   <!--  <distributionManagement>
         <snapshotRepository>
             <id>oss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -49,7 +66,7 @@
             <id>oss</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement> -->
 
     <scm>
         <url>https://github.com/borball/weixin-sdk</url>

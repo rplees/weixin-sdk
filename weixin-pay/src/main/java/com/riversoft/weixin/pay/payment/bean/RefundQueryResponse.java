@@ -14,7 +14,7 @@ import com.riversoft.weixin.pay.base.BaseResponse;
 /**
  * @borball on 5/17/2016.
  */
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RefundQueryResponse extends BaseResponse {
 
     @JsonProperty("transaction_id")
@@ -120,7 +120,8 @@ public class RefundQueryResponse extends BaseResponse {
         this.refundAccount = refundAccount;
     }
 
-    @JsonIgnore
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@JsonIgnore
     public List<Refund> getRefunds(){
         List<Refund> refunds = new ArrayList<>();
         if(others.size() > 0) {

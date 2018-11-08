@@ -2,6 +2,7 @@ package com.riversoft.weixin.pay.payment.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.util.DateDeserializer;
@@ -10,6 +11,7 @@ import com.riversoft.weixin.pay.base.BaseResponse;
 /**
  * @borball on 5/15/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MicroPayResponse extends BaseResponse {
 	@JsonProperty("openid")
 	private String openid;

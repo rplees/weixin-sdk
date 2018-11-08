@@ -1,5 +1,6 @@
 package com.riversoft.weixin.pay.payment.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.riversoft.weixin.common.util.DateDeserializer;
@@ -10,6 +11,7 @@ import java.util.Date;
 /**
  * @borball on 5/15/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderQueryResponse extends BaseResponse {
 
     @JsonProperty("device_info")
@@ -17,8 +19,6 @@ public class OrderQueryResponse extends BaseResponse {
 
     @JsonProperty("openid")
     private String openId;
-
-    private boolean subscribed;
 
     @JsonProperty("trade_type")
     private String tradeType;
@@ -43,6 +43,9 @@ public class OrderQueryResponse extends BaseResponse {
 
     @JsonProperty("cash_fee_type")
     private String caseFeeType;
+    
+    @JsonProperty("is_subscribe")
+    private String isSubscribe;
 
     @JsonProperty("coupon_fee")
     private int couponFee;
@@ -81,15 +84,16 @@ public class OrderQueryResponse extends BaseResponse {
         this.openId = openId;
     }
 
-    public boolean isSubscribed() {
-        return this.subscribed;
-    }
+    
+    public String getIsSubscribe() {
+		return isSubscribe;
+	}
 
-    public void setSubscribed(String subscribed) {
-        this.subscribed = "Y".equalsIgnoreCase(subscribed);
-    }
+	public void setIsSubscribe(String isSubscribe) {
+		this.isSubscribe = isSubscribe;
+	}
 
-    public String getTradeType() {
+	public String getTradeType() {
         return tradeType;
     }
 

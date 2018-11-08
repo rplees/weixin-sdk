@@ -1,10 +1,12 @@
 package com.riversoft.weixin.pay.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @borball on 5/15/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseResponse extends BaseRequest {
 
     @JsonProperty("return_code")
