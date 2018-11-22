@@ -1,15 +1,17 @@
 package com.riversoft.weixin.pay.base;
 
-import com.riversoft.weixin.common.cert.CertContent;
-import com.riversoft.weixin.common.cert.FilePathCertContent;
-import com.riversoft.weixin.common.exception.WxRuntimeException;
-import com.riversoft.weixin.common.util.XmlObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.riversoft.weixin.common.cert.CertContent;
+import com.riversoft.weixin.common.cert.FilePathCertContent;
+import com.riversoft.weixin.common.cert.InputStreamCertContent;
+import com.riversoft.weixin.common.exception.WxRuntimeException;
+import com.riversoft.weixin.common.util.XmlObjectMapper;
 
 /**
  * 商户信息
@@ -163,6 +165,12 @@ public class XMLPaySetting implements IPaySetting {
 
 	@Override
 	public CertContent getCertContent() {
+		String inputStreamFlag = "classpath:/";
+		
+		if(this.certPath != null && this.certPath.startsWith(inputStreamFlag)) {
+			 InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(this.certPath.replace(inputStreamFlag, ""));
+			return new InputStreamCertContent(inputStream);
+		}
 		return new FilePathCertContent(this.certPath);
 	}
 }

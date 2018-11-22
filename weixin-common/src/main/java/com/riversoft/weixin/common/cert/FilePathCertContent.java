@@ -17,6 +17,7 @@ public class FilePathCertContent implements CertContent {
 	@Override
 	public void load(KeyStore keyStore, String certPassword)
 			throws CertificateException, NoSuchAlgorithmException, IOException {
+		
 		FileInputStream inputStream = new FileInputStream(new File(filePath));
 		keyStore.load(inputStream, certPassword.toCharArray());
 	}

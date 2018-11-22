@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.riversoft.weixin.common.WxSslClient;
 import com.riversoft.weixin.pay.base.IPaySetting;
 import com.riversoft.weixin.pay.base.IPayWxClient;
+import com.riversoft.weixin.pay.base.XMLPaySetting;
 
 /**
  * Created by exizhai on 11/12/2015.
