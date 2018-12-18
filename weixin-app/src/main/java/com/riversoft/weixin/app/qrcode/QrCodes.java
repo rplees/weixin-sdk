@@ -53,4 +53,15 @@ public class QrCodes {
         String json = "{\"path\": \"%s\", \"width\": %s}";
         return wxClient.copyStream(url, String.format(json, path, size));
     }
+    /**
+     * 获取小程序页面二维码
+     * @param path, path 需要在 app.json 的 pages 中定义
+     * @param size
+     * @return
+     */
+    public InputStream getWxaCodeUnlimit(String scene, String path, int size) {
+	    	String url = WxEndpoint.get("url.qrcode.getwxacodeunlimit");
+	    	String json = "{\"scene\":\"%s\",\"path\": \"%s\", \"width\": %s}";
+	    	return wxClient.copyStream(url, String.format(json, scene, path, size));
+    }
 }
