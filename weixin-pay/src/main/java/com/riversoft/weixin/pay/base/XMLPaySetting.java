@@ -168,7 +168,7 @@ public class XMLPaySetting implements IPaySetting {
 		String inputStreamFlag = "classpath:/";
 		
 		if(this.certPath != null && this.certPath.startsWith(inputStreamFlag)) {
-			 InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(this.certPath.replace(inputStreamFlag, ""));
+			InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(this.certPath.replace(inputStreamFlag, ""));
 			return new InputStreamCertContent(inputStream);
 		}
 		return new FilePathCertContent(this.certPath);
