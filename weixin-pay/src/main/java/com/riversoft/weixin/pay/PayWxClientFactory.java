@@ -1,15 +1,17 @@
 package com.riversoft.weixin.pay;
 
+import java.util.concurrent.ConcurrentMap;
+
 import com.google.common.cache.CacheBuilder;
 import com.riversoft.weixin.common.WxSslClient;
-import com.riversoft.weixin.pay.base.PaySetting;
-
-import java.util.concurrent.ConcurrentMap;
+import com.riversoft.weixin.pay.base.IPaySetting;
+import com.riversoft.weixin.pay.base.IPayWxClient;
+import com.riversoft.weixin.pay.base.XMLPaySetting;
 
 /**
  * Created by exizhai on 11/12/2015.
  */
-public class PayWxClientFactory {
+public class PayWxClientFactory implements IPayWxClient {
 
     private static PayWxClientFactory instance = null;
     private static ConcurrentMap<String, WxSslClient> wxClients = CacheBuilder.newBuilder().initialCapacity(8)
@@ -23,12 +25,12 @@ public class PayWxClientFactory {
     }
 
     public WxSslClient defaultWxSslClient() {
-        return with(PaySetting.defaultSetting());
+        return with(XMLPaySetting.defaultSetting());
     }
 
-    public WxSslClient with(PaySetting paySetting) {
+    public WxSslClient with(IPaySetting paySetting) {
         if (!wxClients.containsKey(key(paySetting))) {
-            WxSslClient wxClient = new WxSslClient(paySetting.getCertPath(), paySetting.getCertPassword());
+            WxSslClient wxClient = new WxSslClient(paySetting.getCertContent(), paySetting.getCertPassword());
             wxClients.putIfAbsent(key(paySetting), wxClient);
         }
 
@@ -36,8 +38,13 @@ public class PayWxClientFactory {
     }
 
 
-    private String key(PaySetting paySetting) {
+    private String key(IPaySetting paySetting) {
         return paySetting.getAppId() + ":" + paySetting.getMchId();
     }
+
+	@Override
+	public WxSslClient load(IPaySetting paySetting) {
+		return with(paySetting);
+	}
 }
 
