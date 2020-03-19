@@ -1,19 +1,19 @@
 package com.riversoft.weixin.pay;
 
-import java.util.concurrent.ConcurrentHashMap;
-
+import com.google.common.cache.CacheBuilder;
 import com.riversoft.weixin.common.WxSslClient;
-import com.riversoft.weixin.pay.base.IPaySetting;
-import com.riversoft.weixin.pay.base.IPayWxClient;
-import com.riversoft.weixin.pay.base.XMLPaySetting;
+import com.riversoft.weixin.pay.base.PaySetting;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by exizhai on 11/12/2015.
  */
-public class PayWxClientFactory implements IPayWxClient {
+public class PayWxClientFactory {
 
     private static PayWxClientFactory instance = null;
-    private static ConcurrentHashMap<String, WxSslClient> wxClients = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, WxSslClient> wxClients = CacheBuilder.newBuilder().initialCapacity(8)
+            .maximumSize(128).<String, WxSslClient>build().asMap();
 
     public static PayWxClientFactory getInstance() {
         if (instance == null) {
@@ -22,21 +22,21 @@ public class PayWxClientFactory implements IPayWxClient {
         return instance;
     }
 
-	@Override
-	public WxSslClient load(IPaySetting paySetting) {
-		if (!wxClients.containsKey(key(paySetting))) {
-			WxSslClient wxClient = new WxSslClient(paySetting.getCertContent(), paySetting.getCertPassword());
-			wxClients.putIfAbsent(key(paySetting), wxClient);
-		}
+    public WxSslClient defaultWxSslClient() {
+        return with(PaySetting.defaultSetting());
+    }
 
-		return wxClients.get(key(paySetting));
-	}
-    
-//    public WxSslClient defaultWxSslClient() {
-//        return with(XMLPaySetting.defaultSetting());
-//    }
+    public WxSslClient with(PaySetting paySetting) {
+        if (!wxClients.containsKey(key(paySetting))) {
+            WxSslClient wxClient = new WxSslClient(paySetting.getCertPath(), paySetting.getCertPassword());
+            wxClients.putIfAbsent(key(paySetting), wxClient);
+        }
 
-    private String key(IPaySetting paySetting) {
+        return wxClients.get(key(paySetting));
+    }
+
+
+    private String key(PaySetting paySetting) {
         return paySetting.getAppId() + ":" + paySetting.getMchId();
     }
 }

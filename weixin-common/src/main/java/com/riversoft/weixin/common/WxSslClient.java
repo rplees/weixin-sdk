@@ -1,10 +1,6 @@
 package com.riversoft.weixin.common;
 
-import java.io.IOException;
-import java.security.KeyStore;
-
-import javax.net.ssl.SSLContext;
-
+import com.riversoft.weixin.common.exception.WxRuntimeException;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
@@ -21,9 +17,11 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.riversoft.weixin.common.cert.CertContent;
-import com.riversoft.weixin.common.cert.FilePathCertContent;
-import com.riversoft.weixin.common.exception.WxRuntimeException;
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.KeyStore;
 
 /**
  * Created by exizhai on 12/1/2015.
@@ -35,12 +33,13 @@ public class WxSslClient {
     protected CloseableHttpClient httpClient;
     RequestConfig requestConfig;
 
-    public WxSslClient(CertContent certContent, String certPassword) {
+    public WxSslClient(String certPath, String certPassword) {
         KeyStore keyStore = null;
         SSLContext sslcontext = null;
         try {
             keyStore = KeyStore.getInstance("PKCS12");
-            certContent.load(keyStore,certPassword);
+            FileInputStream inputStream = new FileInputStream(new File(certPath));
+            keyStore.load(inputStream, certPassword.toCharArray());
             sslcontext = SSLContexts.custom().loadKeyMaterial(keyStore, certPassword.toCharArray()).build();
         } catch (Exception e) {
             logger.error("initializing WxHttpsClient failed.", e);
@@ -53,10 +52,7 @@ public class WxSslClient {
         httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();;
 
         requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(30000).setConnectionRequestTimeout(30000).build();
-    }
-    
-    public WxSslClient(String certPath, String certPassword) {
-    		this(new FilePathCertContent(certPath), certPassword);
+
     }
 
     public String get(String url) {

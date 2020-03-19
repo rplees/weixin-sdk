@@ -15,6 +15,9 @@ public class SessionKey implements Serializable {
     @JsonProperty("unionid")
     private String unionId;
 
+    @JsonProperty("unionid")
+    private String unionId;
+
     @JsonProperty("session_key")
     private String sessionKey;
 
@@ -38,6 +41,14 @@ public class SessionKey implements Serializable {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
     }
 
     public String getSessionKey() {
