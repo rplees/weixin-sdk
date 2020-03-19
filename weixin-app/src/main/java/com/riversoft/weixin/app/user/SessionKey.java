@@ -11,6 +11,9 @@ public class SessionKey implements Serializable {
 
     @JsonProperty("openid")
     private String openId;
+    
+    @JsonProperty("unionid")
+    private String unionId;
 
     @JsonProperty("session_key")
     private String sessionKey;
@@ -20,7 +23,16 @@ public class SessionKey implements Serializable {
 
     private long expiresTill;
 
-    public String getOpenId() {
+    
+    public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
+
+	public String getOpenId() {
         return openId;
     }
 
